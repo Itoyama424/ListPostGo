@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="ユーザー情報一覧"></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+
+  <div class="container">
+    <form th:action="@{/listUpdate}" th:object="${userListForm}" th:method="post">
+	 <h1 th:text="*{message}"></h1>	
+	 <input type="hidden" th:field="*{message}">
+      <div  class="text-end">
+        <input type="submit" class="btn btn-primary" value="　更新　">
+      </div><br />
+      <div  class="text-end">
+        <input type="button" class="btn btn-primary" id="weather" value="　天気　">
+      </div><br />      
+      <!--<table class="table table-striped">-->
+		<table class="table">
+        <tbody>
+          <tr th:each="user, st : *{listUserTable}" class="align-middle">
+            <td>
+              <label th:text="${user.id}"></label>
+              <input type="hidden" th:field="*{listUserTable[__${st.index}__].id}">
+            </td>
+            <td>
+			  <input type="text" class="form-control" th:field="*{listUserTable[__${st.index}__].name}"> 
+            </td>
+            <td>
+              <input type="text" class="form-control" th:field="*{listUserTable[__${st.index}__].address}">
+            </td>
+            <td>
+              <input type="text" class="form-control" th:field="*{listUserTable[__${st.index}__].phone}">
+            </td>
+            <td>
+              <label th:text="${user.updateTime}"></label>
+              <input type="hidden" th:field="*{listUserTable[__${st.index}__].updateTime}">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+	    <option selected>Open this select menu</option>
+	    <option value="1">One</option>
+	    <option value="2">Two</option>
+	    <option value="3">Three</option>
+	  </select>
+    </form>
+    <form th:action="@{/weather}" method="post" id="api_form">
+		
+	</form>
+  </div>
+<script>
+ $("#weather").click(function() {
+	 $('#api_form').submit();
+ });
+</script>  
+</body>
+</html>
