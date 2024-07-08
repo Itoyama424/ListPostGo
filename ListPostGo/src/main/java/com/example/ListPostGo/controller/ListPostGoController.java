@@ -14,8 +14,12 @@ import com.example.ListPostGo.dto.UserListForm;
 import com.example.ListPostGo.dto.UserTableDto;
 import com.example.ListPostGo.service.UserServiceGo;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class ListPostGoController {
+	
+	private String test;
 	@Autowired
 	private UserServiceGo userService;
 	
@@ -25,7 +29,7 @@ public class ListPostGoController {
 	}
 	
 	@GetMapping("/userlist")
-	public String viewUserList(Model model) {
+	public String viewUserList(Model model, HttpSession session) {
 		
 		List<UserTableDto> listuserdto = userService.selectAllUserTable();
 		
@@ -34,16 +38,21 @@ public class ListPostGoController {
 		userListForm.setMessage("TESTユーザー一覧");
 		userListForm.setListUserTable(listuserdto);
 		
+		userListForm.setSessionId((String)session.getAttribute("TEST"));
+		
 		model.addAttribute("userListForm", userListForm);
 	
+		session.setAttribute("TEST", "testsession");
+		
 		return "list";
 		
 	}
 	
 	@PostMapping("listUpdate")
-	public String updateList(@ModelAttribute("UserListForm") ModelAttributeUser user, Model model) {
+	public String updateList(@ModelAttribute("UserListForm") ModelAttributeUser user, Model model, HttpSession session) {
 		
 		List<UserTableDto> listuserdto = user.getListUserTable();
+		
 		
 		long num = userService.updateUser(listuserdto);
 		

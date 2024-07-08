@@ -1,6 +1,8 @@
 package com.example.ListPostGo.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +24,19 @@ public class ApiCallController {
 		String json = response.getBody();
 		
 		model.addAttribute("apires", json);
+		
 		return "weather";
 	}
 	
 
+	public void postWithHeader() {
+		
+		RestTemplate restTemplate = new RestTemplate();
+        RequestEntity<Void> request = RequestEntity
+                .post("http://localhost:8080/api/post-header")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer token")
+                .build();
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+    }
 }

@@ -9,5 +9,7 @@ public class UserListForm {
 	
 	private String message;
 	
+	private String sessionId;
+	
 	private List<UserTableDto> listUserTable;
 }
